@@ -1,0 +1,9 @@
+rootProject.name = 'zp-ms'
+include 'common'
+include 'user'
+include 'storage'
+include 'gateway'
+include 'logger'
+include 'system'
+include 'sentinel-adapter'
+

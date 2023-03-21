@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: zp-gateway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        group: zp
+        server-addr: 1270.0.01:8848
+        namespace: 123
+        username: 123
+        password: 123
+        file-extension: yml
+      discovery:
+        group: zp
+        server-addr: 1270.0.01:8848
+        namespace: 123
+        username: 123
+        password: 123
+        ip: 127.0.0.1
+    openfeign:
+      lazy-attributes-resolution: true
+    sentinel:
+      enabled: false
+
+
+  config:
+    import:
+      - optional:nacos:zp-gateway-config.yml?group=zp
+      - optional:nacos:zp-actuator-config.yml?group=zp
+
+zp:
+  sentinel:
+    server-addr: ${spring.cloud.nacos.config.server-addr}
+    username: ${spring.cloud.nacos.config.username}
+    password: ${spring.cloud.nacos.config.password}
+    namespace: ${spring.cloud.nacos.config.namespace}
+    group-id: ${spring.cloud.nacos.config.group}
+    nacos:
+      ds1:
+        data-id: gateway-sentinel-flow.json
+        data-type: json
+        rule-type: flow
+      ds2:
+        data-id: gateway-sentinel-degrade.json
+        data-type: json
+        rule-type: degrade

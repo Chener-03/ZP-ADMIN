@@ -1,0 +1,17 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.chener.zp.zpusermodule.dao.OrgUserMapDao">
+
+
+    <select id="getOrgUsers" resultType="xyz.chener.zp.zpusermodule.entity.dto.OrgUserDto">
+        select a.*,b.username as user_name,c.name_cn as user_ch_name
+        from org_user_map a,user_base b left JOIN
+        user_extend c  on b.id = c.user_id
+        where a.org_id = #{id}
+        and a.user_id = b.id order by a.id
+    </select>
+    <select id="getOrgBaseByUserId" resultType="xyz.chener.zp.zpusermodule.entity.OrgBase">
+        select a.* from org_base a,org_user_map b
+        where b.user_id = #{userId} and a.id = b.org_id
+    </select>
+</mapper>
+
