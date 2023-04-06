@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.chener.zp.common.config.CommonConfig;
 import xyz.chener.zp.common.config.writeList.WriteListAutoConfig;
 import xyz.chener.zp.common.entity.CommonVar;
+import xyz.chener.zp.common.utils.UriMatcherUtils;
 
 import java.io.IOException;
 
@@ -87,28 +88,11 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private boolean matchUrl(String uri, String s) {
-        if (s.contains("/**"))
+        if (s.contains("{") && s.contains("}"))
         {
-            int i = s.indexOf("/**");
-            if (i == 0)
-            {
-                return true;
-            } else
-            {
-                s = s.substring(0, i);
-                if (uri.contains(s))
-                {
-                    return true;
-                }
-            }
-        } else
-        {
-            if (uri.contains(s))
-            {
-                return true;
-            }
+            s = s.substring(0, s.indexOf("{")) + "*" + s.substring(s.indexOf("}") + 1);
         }
-        return false;
+        return UriMatcherUtils.match(s,uri);
     }
 
 }

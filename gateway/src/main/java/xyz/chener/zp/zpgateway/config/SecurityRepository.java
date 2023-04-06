@@ -33,6 +33,7 @@ import xyz.chener.zp.zpgateway.error.UserAuthNotFoundError;
 import xyz.chener.zp.zpgateway.error.UserNotFoundError;
 import xyz.chener.zp.zpgateway.service.UserModuleService;
 import xyz.chener.zp.zpgateway.utils.HeaderUtils;
+import xyz.chener.zp.zpgateway.utils.UriMatcherUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -201,28 +202,11 @@ public class SecurityRepository implements WebFilter {
     }
 
     private boolean matchUrl(String uri, String s) {
-        if (s.contains("/**"))
+        if (s.contains("{") && s.contains("}"))
         {
-            int i = s.indexOf("/**");
-            if (i == 0)
-            {
-                return true;
-            } else
-            {
-                s = s.substring(0, i);
-                if (uri.contains(s))
-                {
-                    return true;
-                }
-            }
-        } else
-        {
-            if (uri.contains(s))
-            {
-                return true;
-            }
+            s = s.substring(0, s.indexOf("{")) + "*" + s.substring(s.indexOf("}") + 1);
         }
-        return false;
+        return UriMatcherUtils.match(s,uri);
     }
 
     private Mono<Void> getResponseMono(ServerWebExchange exchange, HttpErrorException exception) {

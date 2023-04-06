@@ -2,13 +2,17 @@ package xyz.chener.zp.common.utils;
 
 import xyz.chener.zp.common.entity.SFunction;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @Author: chenzp
@@ -172,5 +176,73 @@ public class ObjectUtils extends org.springframework.util.ObjectUtils {
             return false;
         }
     }
+
+
+    public static class EntityChainWrapper<T>{
+        public EntityChainWrapper<T> set(SFunction<T,?> sf, Object a)
+        {
+            String funName = getSFunctionName(sf);
+            if (funName.startsWith("get")) {
+                funName = "set" + funName.substring(3);
+            }
+            try{
+                Method method = clz.getMethod(funName,a.getClass());
+                method.invoke(entity,a);
+            }catch (Exception exception){
+                throw new RuntimeException(exception);
+            }
+            return this;
+        }
+
+        private EntityChainWrapper(){}
+
+        public T build()
+        {
+            return entity;
+        }
+
+        private T entity;
+
+        private Class<T> clz;
+
+        public static <T> EntityChainWrapper<T> builder(Class<T> clz){
+            EntityChainWrapper<T> r = null;
+            r = new EntityChainWrapper<T>();
+            r.clz = clz;
+            try {
+                r.entity = clz.getConstructor().newInstance();
+            } catch ( Exception e) {
+                throw new RuntimeException(e);
+            }
+            return r;
+        }
+
+    }
+
+
+    public static long getSerializableObjectSize(Object obj){
+        int length = 0;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            oos.flush();
+            oos.close();
+            length = baos.toByteArray().length;
+            oos.close();
+            baos.reset();
+            baos.close();
+        }catch (Throwable ignored){ }
+        return length;
+    }
+
+    public static Object newInstance(Class<?> clazz){
+        try {
+            return clazz.getConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

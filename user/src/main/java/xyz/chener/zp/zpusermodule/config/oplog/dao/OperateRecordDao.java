@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xyz.chener.zp.zpusermodule.config.oplog.entity.OperateRecord;
-import xyz.chener.zp.zpusermodule.entity.dto.OperateRecordDto;
-import xyz.chener.zp.zpusermodule.entity.dto.UserLoginEventRecordDto;
+import xyz.chener.zp.zpusermodule.config.oplog.entity.OperateRecordDto;
 
 import java.util.List;
 
