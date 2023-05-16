@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+dependencies {
+    implementation project(':common')
+    implementation project(':logger')
+    implementation project(':sentinel-adapter')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6'
+
+    implementation ('com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'){
+        exclude group: 'com.alibaba.csp', module: 'sentinel-transport-simple-http'
+    }
+
+    implementation 'org.redisson:redisson-spring-boot-starter:3.21.1'
+    implementation 'org.apache.skywalking:apm-toolkit-trace:8.15.0'
+    implementation 'org.apache.skywalking:apm-toolkit-logback-1.x:8.15.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    implementation 'com.googlecode.aviator:aviator:5.3.3'
+
+    implementation 'org.graalvm.js:js-scriptengine:22.3.1'
+    implementation 'org.graalvm.js:js:22.3.1'
+
+
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom 'com.alibaba.cloud:spring-cloud-alibaba-dependencies:2022.0.0.0-RC2'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+compileJava {
+    options.compilerArgs << "-parameters"
+}
