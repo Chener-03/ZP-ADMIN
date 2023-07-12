@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Component;
 import xyz.chener.zp.zpusermodule.entity.Role;
 import xyz.chener.zp.zpusermodule.entity.UserBase;
+import xyz.chener.zp.zpusermodule.entity.dto.LoginResult;
 import xyz.chener.zp.zpusermodule.service.UserModuleService;
 
 
@@ -26,4 +27,16 @@ public class UserModuleServiceFallback implements UserModuleService {
     public List<String> getWsOnlineUsersName() {
         return new ArrayList<>();
     }
+
+    @Override
+    public Boolean postQrCodeLoginGet(String sessionId) {
+        return false;
+    }
+
+    @Override
+    public Boolean postQrCodeLoginAuthorization(String sessionId, LoginResult result) {
+        return false;
+    }
+
+
 }
