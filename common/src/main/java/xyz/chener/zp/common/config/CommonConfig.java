@@ -1,5 +1,6 @@
 package xyz.chener.zp.common.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,9 @@ public class CommonConfig {
     private final LoggerPush loggerPush = new LoggerPush();
     private final MybatisCache mybatisCache = new MybatisCache();
 
+    private Boolean enableServletVitureThread = true;
+
+
     public MybatisCache getMybatisCache() {
         return mybatisCache;
     }
@@ -41,9 +45,19 @@ public class CommonConfig {
         return security;
     }
 
+
+    public Boolean getEnableServletVitureThread() {
+        return enableServletVitureThread;
+    }
+
+    public void setEnableServletVitureThread(Boolean enableServletVitureThread) {
+        this.enableServletVitureThread = enableServletVitureThread;
+    }
+
     public static class Jwt{
-        private String salt = "123";
-        private Integer expires = 1000*60*60;
+        private String salt = "qwer";
+        private Long expires = 1000*60*60L;
+        private Long clientExpires = 1000 * 60 * 60 * 24 *30L;
 
         public String getSalt() {
             return salt;
@@ -53,21 +67,29 @@ public class CommonConfig {
             this.salt = salt;
         }
 
-        public Integer getExpires() {
+        public Long getExpires() {
             return expires;
         }
 
-        public void setExpires(Integer expires) {
+        public void setExpires(Long expires) {
             this.expires = expires;
+        }
+
+        public Long getClientExpires() {
+            return clientExpires;
+        }
+
+        public void setClientExpires(Long clientExpires) {
+            this.clientExpires = clientExpires;
         }
     }
 
     public static class Security{
         private List<String> writeList = new ArrayList<>();
 
-        private String feignCallSlat = "123";
+        private String feignCallSlat = "9OXoyBoyOMzafOCcNBEJDuRlu80IGyrGFJPef";
 
-        private String dsKey = "123";
+        private String dsKey = "67F9695B82E38130C305BC67";
 
         public String getDsKey() {
             return dsKey;

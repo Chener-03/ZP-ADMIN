@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: zp-task-module
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        group: zp
+        server-addr: 1
+        namespace: 1
+#        namespace: 31566b11-faba-4430-ab6c-353aa99c9874
+        username: 1
+        password: 1
+        file-extension: yml
+        enabled: true
+      discovery:
+        group: zp
+        server-addr: 1
+        namespace: 1
+#        namespace: 31566b11-faba-4430-ab6c-353aa99c9874
+        username: 1
+        password: 1
+        ip: 127.0.0.1
+    openfeign:
+      lazy-attributes-resolution: true
+      compression:
+        request:
+          enabled: true
+        response:
+            enabled:  true
+      okhttp:
+        enabled: true
+
+
+
+  config:
+    import:
+#      - optional:nacos:zp-mysql-config.yml?group=zp
+      - optional:nacos:zp-config?group=zp
+      - optional:nacos:zp-actuator-config.yml?group=zp
+      - optional:nacos:zp-mvc-normal?group=zp
+      - optional:nacos:zp-redis-config.yml?group=zp
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://a.com:21449/zptaskdev?characterEncoding=utf8&useSSL=false&allowMultiQueries=true&useAffectedRows=true&rewriteBatchedStatements=true
+    username: a
+    password: a...
+    hikari:
+      max-lifetime: 60000
+      maximum-pool-size: 5
+
+server:
+  port: 26314
+  compression:
+    enabled: true
+
+
+zp:
+  task:
+    zk:
+      address: "127.0.0.1:2181"
+#      digestACL: "zkadmin:Abcd1234"
+    task-cfg:
+      address: "127.0.0.1:2181"
+#      registIp: "10.18.5.26"
+#      digestACL: "zkadmin:Abcd1234"

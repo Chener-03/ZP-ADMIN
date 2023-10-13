@@ -1,0 +1,34 @@
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20-Beta2'
+}
+
+java {
+    sourceCompatibility = '21'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+dependencies {
+
+
+}
+
+
+
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += "-parameters"
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
