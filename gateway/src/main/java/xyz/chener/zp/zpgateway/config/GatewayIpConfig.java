@@ -3,6 +3,7 @@ package xyz.chener.zp.zpgateway.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -49,6 +50,7 @@ public class GatewayIpConfig {
             return chain.filter(newExchange);
         };
     }
+
 
     @Bean
     @Order(Ordered.LOWEST_PRECEDENCE-99)

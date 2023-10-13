@@ -1,5 +1,7 @@
 package xyz.chener.zp.common.utils;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import xyz.chener.zp.common.entity.SFunction;
 
 import java.io.ByteArrayOutputStream;
@@ -220,6 +222,7 @@ public class ObjectUtils extends org.springframework.util.ObjectUtils {
     }
 
 
+
     public static long getSerializableObjectSize(Object obj){
         int length = 0;
         try {
@@ -241,6 +244,15 @@ public class ObjectUtils extends org.springframework.util.ObjectUtils {
             return clazz.getConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    public static <T> T newInstance(String classFullName){
+        try {
+            return (T) newInstance(Class.forName(classFullName));
+        } catch (Exception e) {
+            return null;
         }
     }
 
